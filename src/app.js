@@ -26,8 +26,8 @@ mongoose
 
 const schoolRoute = require("./api/routes/schoolRoute");
 schoolRoute(server);
-// const groupRoute = require("./api/routes/groupRoute");
-// groupRoute(server);
+const groupRoute = require("./api/routes/groupRoute");
+groupRoute(server);
 const userRoute = require("./api/routes/userRoute");
 userRoute(server);
 // const entrantRoute = require("./api/routes/entrantRoute");
