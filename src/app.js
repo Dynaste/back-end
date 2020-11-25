@@ -30,7 +30,7 @@ const userRoute = require("./api/routes/userRoute");
 userRoute(server);
 const questionsRoute = require("./api/routes/questionsRoute");
 questionsRoute(server);
-// const entrantRoute = require("./api/routes/entrantRoute");
-// entrantRoute(server);
+// const memberRoute = require("./api/routes/memberRoute");
+// memberRoute(server);
 
 server.listen(port, hostname);
