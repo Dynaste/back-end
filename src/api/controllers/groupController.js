@@ -30,9 +30,9 @@ exports.list_all_groups = (req, res) => {
 exports.create_a_group = (req, res) => {
   const new_group = new Group({...req.body});
 
-  res.json(new_group);
+  // res.json(new_group);
 
-  /* new_group.save((err, group) => {
+  new_group.save((err, group) => {
     if (err) {
       res.status(500);
       res.json({
@@ -43,7 +43,7 @@ exports.create_a_group = (req, res) => {
       res.json(group);
       console.log("Group successfully created");
     }
-  }); */
+  });
 } 
 // #endregion
 
