@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+/**
+ * Is the creation schema for School object in MongoDB.
+ */
 const schoolSchema = new Schema({
   name: {
     type: String,
@@ -12,4 +15,7 @@ const schoolSchema = new Schema({
   },
 });
 
+/**
+ * Send School object to School collection in MongoDB.
+ */
 module.exports = mongoose.model("School", schoolSchema);

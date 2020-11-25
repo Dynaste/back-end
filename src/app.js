@@ -3,9 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const server = express();
 
+server.use(bodyParser.urlencoded());
+server.use(bodyParser.json());
+
 const hostname = "127.0.0.1";
 const port = 3000;
 
+/**
+ * Connect Back-end application to MongoDB Database
+ * DbName = db-nodeproject
+ */
 mongoose
   .connect("mongodb://localhost/db-nodeproject", { useNewUrlParser: true })
   .then(() => {
@@ -15,8 +22,7 @@ mongoose
     console.log("Not Connected to Database ERROR! ", err);
   });
 
-server.use(bodyParser.urlencoded());
-server.use(bodyParser.json());
+
 
 const schoolRoute = require("./api/routes/schoolRoute");
 schoolRoute(server);

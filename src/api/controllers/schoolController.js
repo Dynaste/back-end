@@ -1,6 +1,12 @@
 const School = require("../models/schoolModel");
 
 // #region Schools
+
+/**
+ * Get a list of all schools.
+ * @param {*} req The request sent.
+ * @param {*} res The response of the request.
+ */
 exports.list_all_schools = (req, res) => {
   School.find({}, (err, schools) => {
     if (err) {
@@ -16,6 +22,11 @@ exports.list_all_schools = (req, res) => {
   });
 }
 
+/**
+ * Post a new school to the DataBase.
+ * @param {*} req The request sent, where req.body will contains all data we'll need to do the post. 
+ * @param {*} res The response of the request.
+ */
 exports.create_a_school = (req, res) => {
   const new_school = new School({...req.body});
 
@@ -35,7 +46,13 @@ exports.create_a_school = (req, res) => {
 // #endregion
 
 
-// #region School/SchoolID
+// #region Schools/SchoolID
+
+/**
+ * Get one school by his id.
+ * @param {*} req The request sent, where req.params.school_id will contains the id of the school.
+ * @param {*} res The response of the request.
+ */
 exports.get_a_school = (req, res) => {
   const id = req.params.school_id;
 
