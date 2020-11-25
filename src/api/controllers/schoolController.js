@@ -1,6 +1,6 @@
 const School = require("../models/schoolModel");
 
-//#region "/schools"
+// #region Schools
 exports.list_all_schools = (req, res) => {
   School.find({}, (err, schools) => {
     if (err) {
@@ -14,7 +14,7 @@ exports.list_all_schools = (req, res) => {
       console.log("Schools successfully retrieved");
     }
   });
-};
+}
 
 exports.create_a_school = (req, res) => {
   const new_school = new School({...req.body});
@@ -31,13 +31,25 @@ exports.create_a_school = (req, res) => {
       console.log("School successfully created");
     }
   });
-};
-//#endregion
+} 
+// #endregion
 
-//#region "/schools/:school_id"
 
-/* exports.get_a_school = (req, res) => {
+// #region School/SchoolID
+exports.get_a_school = (req, res) => {
+  const id = req.params.school_id;
 
-} */
-
-//#region
+  School.findById(id, (err, school) => {
+    if (err) {
+      res.status(500);
+      res.json({
+        message: "Server internal error.",
+      });
+    } else {
+      res.status(200);
+      res.json(school);
+      console.log("School successfully retrieved");
+    }
+  });
+}
+// #endregion
