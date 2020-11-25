@@ -7,9 +7,17 @@ const arrayLimit = (val) => {
 
 const groupSchema = new Schema({
   members: {
-    type: [Schema.Types.Mixed],
+    type: [Object],
     required: true,
-    validate: [arrayLimit, `Can't handle more than 5`]
+    validate: [arrayLimit, `5 members maximum !`]
+  },
+  questions: {
+    type: Object,
+    required: true
+  },
+  about: {
+    type: String,
+    required: true
   }
 });
 

@@ -8,10 +8,12 @@ const schoolSchema = new Schema({
   name: {
     type: String,
     required: "Name is required.",
+    trim: true
   },
   location: {
     type: String,
     required: "Location is required.",
+    trim: true
   },
 });
 

@@ -1,9 +1,10 @@
 const Group = require("../models/groupModel");
+const {capitalize, checkMembersKeys, checkQuestionsKeys} = require('../utils/utils');
 
-// #region Schools
+// #region Groups
 
 /**
- * Get a list of all schools.
+ * Get a list of all groups.
  * @param {*} req The request sent.
  * @param {*} res The response of the request.
  */
@@ -20,55 +21,60 @@ exports.list_all_groups = (req, res) => {
       console.log("Groups successfully retrieved");
     }
   });
-}
+};
 
 /**
  * Post a new group to the DataBase.
- * @param {*} req The request sent, where req.body will contains all data we'll need to do the post. 
+ * @param {*} req The request sent, where req.body will contains all data we'll need to do the post.
  * @param {*} res The response of the request.
  */
-exports.create_a_group = (req, res) => {
-  const new_group = new Group({...req.body});
+exports.create_a_group = async(req, res) => {
+  const {members} = req.body;
+  const {questions} = req.body;
+  const {about} = req.body;
 
-  // res.json(new_group);
+  try {
 
-  new_group.save((err, group) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        message: "Server internal error.",
+    /*
+      let verifDuplicate = await Group.find({members}).exec(); 
+      console.log(verifDuplicate);  // get tout les groupes afin de pouvoir ensuite boucler dessus pour verifier si des mails/phone existe deja
+    */
+
+    if (checkMembersKeys(members) && checkQuestionsKeys(questions) && about) {
+
+      
+      members.forEach(member => {
+        member.lastname = member.lastname.toUpperCase();
+        member.firstname = capitalize(member.firstname);
+        member.email = member.email.toLowerCase();
+      })
+
+      const new_group = new Group({ ...req.body });
+
+      new_group.save((err, group) => {
+        if (err) {
+          res.status(500);
+          res.json({
+            message: "Internal error occured"
+          });
+        } else {
+          res.status(201);
+          res.json(group);
+          console.log("Group successfully created");
+        }
       });
     } else {
-      res.status(201);
-      res.json(group);
-      console.log("Group successfully created");
-    }
-  });
-} 
-// #endregion
-
-
-// #region Schools/SchoolID
-
-/**
- * Get one school by his id.
- * @param {*} req The request sent, where req.params.school_id will contains the id of the school.
- * @param {*} res The response of the request.
- */
-exports.get_a_school = (req, res) => {
-  const id = req.params.school_id;
-
-  School.findById(id, (err, school) => {
-    if (err) {
       res.status(500);
       res.json({
-        message: "Server internal error.",
+        // message: err.message, log error precis pour debug
+        message: "Internal error occured"
       });
-    } else {
-      res.status(200);
-      res.json(school);
-      console.log("School successfully retrieved");
     }
-  });
-}
+  } catch (err) {
+    res.json({
+      message: "Internal error occured"
+    });
+    console.log(err);
+  }
+};
 // #endregion

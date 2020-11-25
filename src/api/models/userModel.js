@@ -8,15 +8,18 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: "Name is required.",
+    trim: true
   },
   email: {
     type: String,
     required: "Email is required.",
-    unique: true
+    unique: true,
+    trim: true
   },
   password: {
     type: String,
     required: "Password is required.",
+    trim: true
   },
   associatedSchoolId: {
     type: String

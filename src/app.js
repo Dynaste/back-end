@@ -11,7 +11,7 @@ const port = 3000;
 
 /**
  * Connect Back-end application to MongoDB Database
- * DbName = db-nodeproject
+ * DbName = "db-nodeproject"
  */
 mongoose
   .connect("mongodb://localhost/db-nodeproject", { useNewUrlParser: true })
@@ -22,14 +22,14 @@ mongoose
     console.log("Not Connected to Database ERROR! ", err);
   });
 
-
-
 const schoolRoute = require("./api/routes/schoolRoute");
 schoolRoute(server);
 const groupRoute = require("./api/routes/groupRoute");
 groupRoute(server);
 const userRoute = require("./api/routes/userRoute");
 userRoute(server);
+const questionsRoute = require("./api/routes/questionsRoute");
+questionsRoute(server);
 // const entrantRoute = require("./api/routes/entrantRoute");
 // entrantRoute(server);
 
