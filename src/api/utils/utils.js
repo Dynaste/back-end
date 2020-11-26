@@ -1,5 +1,6 @@
 const validator = require("validator");
 const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
+const bcrypt = require('bcrypt');
 
 // console.log(phoneUtil.isValidNumber(number));
 
@@ -61,10 +62,10 @@ exports.checkQuestionsKeys = (objectsToCheck) => {
         if (objectsToCheck[`${property}`]) {
           count++;
         } else {
-          throw `You need to answer the question n°${count}.`;
+          throw `You need to answer the question n°${count+1}.`;
         }
       } catch (err) {
-        throw `You need to answer the question n°${count}.`;
+        throw `You need to answer the question n°${count+1}.`;
       }
     }
     if(count !== 5){
@@ -82,4 +83,15 @@ exports.capitalize = (str) => {
     let firstCharCapitalize = str.charAt(0).toUpperCase();
     const splicedStr = str.slice(1, str.length).toLowerCase();
     return firstCharCapitalize + splicedStr;
+}
+
+
+exports.decryptPassword = async (inputPassword, dbPassword) => {
+  bcrypt.compare(inputPassword, dbPassword, (err, result) => {
+    if (err || result === false) {
+      throw "Passwords not equals";
+    } else {
+      return result;
+    }
+  });
 }

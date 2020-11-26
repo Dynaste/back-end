@@ -64,6 +64,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
 - [dotenv](https://www.npmjs.com/package/dotenv) : Tools used to import `.env` file and use our environment variables.
 - [nodemon](https://www.npmjs.com/package/nodemon) : Back-end library used to auto-refresh the server while editing the code.
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) : Tools to use JWT in our secured requests.
+- [google-libphonenumber](https://www.npmjs.com/package/google-libphonenumber) : Library, used to check if a phone number has a valid format.
 
 ### 4. Compatibility
 

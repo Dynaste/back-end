@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const jwt = require('jsonwebtoken');
 const validator = require("validator");
 const bcrypt = require('bcrypt');
-const { capitalize } = require('../utils/utils');
+const { capitalize, decryptPassword } = require('../utils/utils');
 
 const JWT_TOKEN = process.env.JWT_TOKEN;
 
@@ -14,19 +14,33 @@ const JWT_TOKEN = process.env.JWT_TOKEN;
  * @param {*} req The request sent.
  * @param {*} res The response of the request.
  */
-exports.list_all_users = async (req, res) => {
-  User.find({}, (err, users) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        message: "Server internal error.",
-      });
-    } else {
-      res.status(200);
-      res.json(users);
-      console.log("Users successfully retrieved");
-    }
-  });
+exports.get_school_user = async (req, res) => {
+  try {
+    User.findOne({associatedSchoolId: req.params.school_id}, (err, user) => {
+      if (err) {
+        throw 'Internal server error.';
+      } else {
+        // Remove password property from user object
+        const newObjUser = {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          associatedSchoolId: user.associatedSchoolId,
+          __v: user.__v
+        }
+
+        res.status(200);
+        res.json(newObjUser);
+        console.log("User successfully retrieved");
+      }
+    });
+  } catch(err) {
+    res.status(500);
+    res.json({
+      message: err,
+    });
+
+  }
 }
 
 /**
@@ -35,74 +49,102 @@ exports.list_all_users = async (req, res) => {
  * @param {*} res The response of the request.
  */
 exports.create_an_user = async(req, res) => {
+  let statusCode = 201;
 
-  /**
-   * Check if the email property contains a valid value and if it's greatly formatted, using validator module
-   */
-  if (!validator.isEmail(req.body.email)) {
-    res.status(400);
-    res.json({
-        message: "Your email don't have a good format"
-    })
-  } else {
-    /**
-     *  Encrypt the password using bcrypt module
-     * */
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const userObj = {
-      email : req.body.email,
-      password: hashedPassword,
-      name : capitalize(req.body.name),
-      associatedSchoolId: req.params.school_id 
-    };
-    const new_user = new User(userObj);
+  const {email, password, name} = req.body;
 
-    new_user.save((err, user) => {
-      if (err) {
-        res.status(500);
-        res.json({
-          message: "Server internal error.",
-        });
+  try {
+    if(email && password && name) {
+      /**
+       * Check if the email property contains a valid value and if it's greatly formatted, using validator module
+       */
+      if (!validator.isEmail(req.body.email)) {
+        statusCode = 400;
+        throw "Email don't have the right format.";
+      
+      } else if (!req.body.password) {
+        statusCode = 400;
+        throw "You have to set a password.";
+        
       } else {
-        res.status(201);
-        res.json(user);
-        console.log("User successfully created");
+        /**
+         *  Encrypt the password using bcrypt module
+         * */
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const userObj = {
+          email : req.body.email,
+          password: hashedPassword,
+          name : capitalize(req.body.name),
+          associatedSchoolId: req.params.school_id 
+        };
+        const new_user = new User(userObj);
+
+        new_user.save((err, user) => {
+          if (err) {
+            statusCode = 500;
+            throw 'Internal server error.'
+
+          } else {
+            res.status(statusCode);
+            res.json(user);
+            console.log("User successfully created.");
+          }
+        });
       }
-    });
-  }  
+    } else {
+      throw 'All fields are required.';
+    }
+  } catch(err) {
+    res.status(statusCode);
+    res.json({
+        message: err
+    })
+  }
 } 
 // #endregion
 
 exports.login_an_user = (req, res) => {
+  const {email, password} = req.body;
+  console.log('email : ', email);
+  console.log('password : ', password);
 
-  User.findOne({email: req.body.email},(error, user) => {
-    
-    if (error) {
-      res.status(403);
-      console.log(error);
-      res.json({
-        message: "Wrong Email or/and password",
-      });
-    }
-    else {
-      if (!bcrypt.compareSync(req.body.password, user.password)) {
-        return res.status(400).send({ message: "Wrong Email or/and password" });
-      }
-      /* if(decryptPassword(req.body.password, user.password)) */
-      jwt.sign({ email: user.email, associatedSchoolId: user.associatedSchoolId, role: "user" }, JWT_TOKEN, { expiresIn: "30 days" }, (error, token) => {
-        if (error) {
-          res.status(400);
-          console.log(error);
+  try {
+    if(email && password) {
+      User.findOne({email: email},(err, user) => {
+        if (err) {
+          throw 'Wrong email and/or password.';
+        } else if(!user) {
+          // Can't use throw, otherwise it'll .. throw .. an Unhandled error
+          res.status(403);
           res.json({
-            message: "Wrong Email or/and password"
+            message: "Wrong Email or/and password.",
           });
         }
         else {
-          res.json({
-            token
-          });
+          if (decryptPassword(req.body.password, user.password)) {
+            jwt.sign({ email: user.email, associatedSchoolId: user.associatedSchoolId, role: "user" }, JWT_TOKEN, { expiresIn: "30 days" }, (err, token) => {
+              if (err) {
+                throw "Server internal error.";
+              }
+              else {
+                console.log('school id : ', user.associatedSchoolId)
+                res.status(200);
+                res.json({
+                  token
+                });
+              }
+            })
+          }
         }
       })
+    } else {
+      throw 'All fields are required.';
     }
-  })
+  } catch (err) {
+    res.status(400);
+    console.log(err);
+    res.json({
+      message: err,
+    });
+  }
 }

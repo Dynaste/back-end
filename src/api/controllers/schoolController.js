@@ -27,21 +27,28 @@ exports.list_all_schools = (req, res) => {
  * @param {*} req The request sent, where req.body will contains all data we'll need to do the post. 
  * @param {*} res The response of the request.
  */
-exports.create_a_school = (req, res) => {
-  const new_school = new School({...req.body});
+exports.create_a_school = async (req, res) => {
+  if (req.body.name !== req.body.location && (req.body.name && req.body.location)) {
 
-  new_school.save((err, school) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        message: "Server internal error.",
-      });
-    } else {
-      res.status(201);
-      res.json(school);
-      console.log("School successfully created");
-    }
-  });
+    const new_school = new School({...req.body});
+    new_school.save((err, school) => {
+      if (err) {
+        res.status(500);
+        res.json({
+          message: "Server internal error.",
+        });
+      } else {
+        res.status(201);
+        res.json(school);
+        console.log("School successfully created");
+      }
+    });
+  } else {
+    res.status(500);
+    res.json({
+      message: "You can't set the same value for name and location."
+    });
+  }
 } 
 // #endregion
 

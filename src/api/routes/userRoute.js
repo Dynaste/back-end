@@ -2,8 +2,8 @@ module.exports = (server) => {
     const userController = require("../controllers/userController");
 
     server
-        .route("/schools/:school_id/users")
-            .get(userController.list_all_users)
+        .route("/schools/:school_id/user")
+            .get(userController.get_school_user)
             .post(userController.create_an_user);
     
     server
