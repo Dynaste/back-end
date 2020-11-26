@@ -57,7 +57,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
 - Launche the server with `npm start`
   - This command will launch the server with the [Nodemon](https://www.npmjs.com/package/nodemon) module, which let you modify your code and auto-refresh the server.
 
-### NPM Modules used
+### 3. NPM Modules used
 
 - [validator](https://www.npmjs.com/package/validator) : Toolkit for checking any data type and/or data format.
 - [bcrypt](https://www.npmjs.com/package/bcrypt) : Tools to encrypt & decrypt passsword.
@@ -65,7 +65,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
 - [nodemon](https://www.npmjs.com/package/nodemon) : Back-end library used to auto-refresh the server while editing the code.
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) : Tools to use JWT in our secured requests.
 
-### Compatibility
+### 4. Compatibility
 
 Those versions are just which we used in development. It's not the only versions, or range of versions you'll need to make it works.
 But if you encountered an issue, keep in mind you can use the following versions:

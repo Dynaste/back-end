@@ -1,4 +1,5 @@
 const Group = require("../models/groupModel");
+const School = require('../models/schoolModel');
 const {
   capitalize,
   checkMembersKeys,
@@ -33,10 +34,10 @@ exports.list_all_groups = (req, res) => {
  * @param {*} res The response of the request.
  */
 exports.create_a_group = async (req, res) => {
-  const { members, questions, about } = req.body;
+  const { members, questions, about, associatedSchoolId } = req.body;
 
   try {
-    if (checkMembersKeys(members) && checkQuestionsKeys(questions) && about) {
+    if (checkMembersKeys(members) && checkQuestionsKeys(questions) && about && associatedSchoolId) {
       const emailDoublons = [];
 
       /**
@@ -82,14 +83,12 @@ exports.create_a_group = async (req, res) => {
       } else {
         res.status(500);
         res.json({
-          // message: err.message, log error precis pour debug
           message: "Internal error occured",
         });
       }
     } else {
       res.status(500);
       res.json({
-        // message: err.message, log error precis pour debug
         message: "Internal error occured",
       });
     }
@@ -102,3 +101,62 @@ exports.create_a_group = async (req, res) => {
   }
 };
 // #endregion
+
+exports.list_all_school_groups = (req, res) => {
+  const schoolId = req.params.school_id;
+
+  console.log(schoolId)
+
+  School.findById(schoolId, (err, school) => {
+    if (err) {
+      res.status(500);
+      res.json({
+        message: 'Server internal error. 1'
+      });
+
+    } else {
+      Group.find({associatedSchoolId: schoolId}, (err, groups) => {
+        if (err) {
+          res.status(500);
+          res.json({
+            message: 'Server interal error 2'
+          });
+        } else {
+          res.status(200);
+          res.json(groups);
+        }
+      })
+    }
+  })
+}
+
+exports.get_a_group = (req, res) => {
+
+  const groupId = req.params.group_id;
+
+  Group.findById(groupId, (err, group) => {
+    if (err || group === null) {
+      res.status(500);
+      res.json({
+        message: "Server internal error.",
+      });
+    } else  {
+      res.status(200);
+      res.json(group);
+      console.log("Group successfully retrieved");
+    }
+  });
+};
+
+exports.delete_a_group = (req, res) => {
+  const groupId = req.params.group_id;
+
+  Group.findByIdAndRemove(groupId, (err, group) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: "Successfully deleted",
+      id: group._id,
+    };
+    return res.status(201).send(response);
+  })
+}

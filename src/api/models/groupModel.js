@@ -18,6 +18,10 @@ const groupSchema = new Schema({
   about: {
     type: String,
     required: true
+  },
+  associatedSchoolId: {
+    type: String,
+    required: true
   }
 });
 
