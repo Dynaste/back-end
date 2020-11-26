@@ -27,7 +27,7 @@ exports.list_all_users = (req, res) => {
  * @param {*} req The request sent, where req.body will contains all data we'll need to do the post. 
  * @param {*} res The response of the request.
  */
-exports.create_a_user = (req, res) => {
+exports.create_an_user = (req, res) => {
   const new_user = new User({...req.body});
 
   new_user.save((err, user) => {
@@ -44,3 +44,8 @@ exports.create_a_user = (req, res) => {
   });
 } 
 // #endregion
+
+
+exports.login_an_user = (req, res) => {
+  // Login + verif JWT
+}
