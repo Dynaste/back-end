@@ -8,9 +8,9 @@ We did this project with the following  [instructions](https://gist.github.com/c
 
 ## Project group
 
-- **MARY Maxime**
-- **KARCZINSKI Quentin**
-- **BA Oulimata**
+- [MARY Maxime](https://github.com/dynaste)
+- [KARCZINSKI Quentin](https://github.com/karzQ)
+- [BA Oulimata](https://github.com/Ouli12)
 
 ## Some words
 
@@ -21,7 +21,7 @@ Please keep in mind we used the [LiveShare](https://visualstudio.microsoft.com/f
 Before lauching the projet you'll need to install some tools.
 In order, you have to :
 
-- Install [NodeJS](https://nodejs.org/en/) (Don't forget to read the compatible versions).
+- Install [NodeJS](https://nodejs.org/en/) (Don't forget to read the [Compatibility](#compatibility) section).
 - Install [MongoDB](https://www.mongodb.com/)
   - If needed, you can install MongoDB Compass (Interface for local and remote database)
 - A code editor like [VSCode](https://code.visualstudio.com/) (Sublime Text, Brackets, VIM .. etc ..)
