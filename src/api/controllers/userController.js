@@ -89,7 +89,7 @@ exports.login_an_user = (req, res) => {
         return res.status(400).send({ message: "Wrong Email or/and password" });
       }
       /* if(decryptPassword(req.body.password, user.password)) */
-      jwt.sign({ email: user.email, role: "user" }, JWT_TOKEN, { expiresIn: "30 days" }, (error, token) => {
+      jwt.sign({ email: user.email, associatedSchoolId: user.associatedSchoolId, role: "user" }, JWT_TOKEN, { expiresIn: "30 days" }, (error, token) => {
         if (error) {
           res.status(400);
           console.log(error);

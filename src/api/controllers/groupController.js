@@ -5,6 +5,8 @@ const {
   checkMembersKeys,
   checkQuestionsKeys,
 } = require("../utils/utils");
+const jwt = require('jsonwebtoken');
+const { json } = require("body-parser");
 
 // #region Groups
 
@@ -150,13 +152,31 @@ exports.get_a_group = (req, res) => {
 
 exports.delete_a_group = (req, res) => {
   const groupId = req.params.group_id;
+  const payload = jwt.decode(req.headers['authorization']);
 
-  Group.findByIdAndRemove(groupId, (err, group) => {
-    if (err) return res.status(500).send(err);
-    const response = {
-      message: "Successfully deleted",
-      id: group._id,
-    };
-    return res.status(201).send(response);
-  })
+  const groupData = Group.findById({groupId}).exec();
+  console.log(groupData);
+  if (groupData) {
+    if (payload.associatedSchoolId === groupData.associatedSchoolId) {
+    
+      Group.findByIdAndRemove(groupId, (err, group) => {
+        if (err) return res.status(500).send(err);
+        const response = {
+          message: "Successfully deleted"
+        };
+        return res.status(201).send(response);
+        });
+    } else {
+      res.status(403);
+      res.json({
+        message: 'You are not an administrator of this school.'
+      })
+    }
+  }
+  else{
+    res.status(500);
+    res.json({
+      message: 'Internal server error.'
+    })
+  }
 }
