@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-
+const jwt = require('jsonwebtoken');
 // #region Users
 
 /**
@@ -44,3 +44,48 @@ exports.create_a_user = (req, res) => {
   });
 } 
 // #endregion
+
+exports.login_an_user = (req, res) => {
+  User.find({
+      email: req.body.email,
+      name: req.body.name,
+  }, (error, user) => {
+      if (error) {
+          res.status(500);
+          console.log(error);
+          res.json({
+              message: "Server internal error"
+          })
+      } else {
+          if (user.password === req.body.password) {
+              jwt.sign({
+                  email: user.email,
+                  name: user.name,
+                  role: "user"
+              }, process.env.JWT_SECRET, {
+                  expiresIn: '30 days'
+              }, (error, token) => {
+                  if (error) {
+                      res.status(400);
+                      console.log(error);
+                      res.json({
+                          message: "Mot de passe ou email,nom erroné"
+                      })
+                  } else {
+                      res.json({
+                          token
+                      })
+                  }
+              })
+          } else {
+              res.status(400);
+              console.log(error);
+              res.json({
+                  message: "Mot de passe ou email,nom erroné."
+              })
+          }
+
+
+      }
+  })
+}
