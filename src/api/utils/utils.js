@@ -83,3 +83,7 @@ exports.capitalize = (str) => {
     const splicedStr = str.slice(1, str.length).toLowerCase();
     return firstCharCapitalize + splicedStr;
 }
+
+/* exports.checkIfMembersExists = (arrMembers) => {
+
+} */
