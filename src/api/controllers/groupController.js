@@ -46,8 +46,6 @@ exports.create_a_group = async (req, res) => {
         member.lastname = member.lastname.toUpperCase();
         member.firstname = capitalize(member.firstname);
         member.email = member.email.toLowerCase();
-
-        
       });
 
       /**
@@ -81,13 +79,12 @@ exports.create_a_group = async (req, res) => {
             console.log("Group successfully created");
           }
         });
-      }
-      else{
+      } else {
         res.status(500);
-      res.json({
-        // message: err.message, log error precis pour debug
-        message: "Internal error occured",
-      });
+        res.json({
+          // message: err.message, log error precis pour debug
+          message: "Internal error occured",
+        });
       }
     } else {
       res.status(500);
