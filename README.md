@@ -16,6 +16,9 @@ We did this project with the following  [instructions](https://gist.github.com/c
 
 Firstly, please keep in mind we used the [LiveShare](https://visualstudio.microsoft.com/fr/services/live-share/) extensions on Visual Studio code, which let us start a live-coding session on one computer of us remotely. That's why we tried to make our commits looking closer to how we worked on the project.
 Secondly, we thought the project in a way which don't let us to use all term of  C.R.U.D. To be clear, an user (admin) can't delete a school for example. In that case we'll don't have to implement this functionality here as it don't match with our project logic.
+
+**Warning : If you have any issues about DB access, please tell us, it could be an access right issue, so we'll give the access for a certain time.**
+
 ## Requirements
 
 Before lauching the projet you'll need to install some tools.
