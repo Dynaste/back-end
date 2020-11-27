@@ -28,7 +28,10 @@ const remote_uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@clusterdb.usmas.
  * DbName = "db-nodeproject"
  */
 mongoose
+  // Connect to DB in local
   /* .connect(local_uri, { useNewUrlParser: true, useUnifiedTopology: true }) */
+
+  // Connect to DB in remote
   .connect(remote_uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to Database");
