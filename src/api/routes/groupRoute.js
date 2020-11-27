@@ -32,5 +32,4 @@ module.exports = (server) => {
         .get(groupController.get_a_group)
         .put(verify_token, groupController.update_a_group)
         .delete(verify_token, groupController.delete_a_group); */
-  };
-  
+};

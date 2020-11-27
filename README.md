@@ -14,8 +14,8 @@ We did this project with the following  [instructions](https://gist.github.com/c
 
 ## Some words
 
-Please keep in mind we used the [LiveShare](https://visualstudio.microsoft.com/fr/services/live-share/) extensions on Visual Studio code, which let us start a live-coding session on one computer of us remotely. That's why we tried to make our commits looking closer to how we worked on the project.
-
+Firstly, please keep in mind we used the [LiveShare](https://visualstudio.microsoft.com/fr/services/live-share/) extensions on Visual Studio code, which let us start a live-coding session on one computer of us remotely. That's why we tried to make our commits looking closer to how we worked on the project.
+Secondly, we thought the project in a way which don't let us to use all term of  C.R.U.D. To be clear, an user (admin) can't delete a school for example. In that case we'll don't have to implement this functionality here as it don't match with our project logic.
 ## Requirements
 
 Before lauching the projet you'll need to install some tools.
@@ -47,7 +47,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
 
 - Install the dependencies `npm install`
   - It will install all saved dependencies you'll find in package-lock.json.
-- Launch MongoDB
+- If you want to try with your local MongoDB :
   - On **MacOS**:
     - Use the command `mongo`
   - On **Windows**:
@@ -56,6 +56,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
     - Go in the following path : `%Install_Directory%\MongoDB\Server\4.2\bin` and open a terminal in this folder, then use this command `mongod.exe --dbpath C:\data\db` to open MongoDB with the specified database to use.
 - Launche the server with `npm start`
   - This command will launch the server with the [Nodemon](https://www.npmjs.com/package/nodemon) module, which let you modify your code and auto-refresh the server.
+- If we don't give it, please ask us to give you our credentials. Then, you'll have to add them in the `.env` file.
 
 ### 3. NPM Modules used
 

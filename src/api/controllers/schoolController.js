@@ -9,18 +9,31 @@ const jwt = require("jsonwebtoken");
  * @param {*} res The response of the request.
  */
 exports.list_all_schools = (req, res) => {
-  School.find({}, (err, schools) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        message: "Server internal error.",
-      });
-    } else {
-      res.status(200);
-      res.json(schools);
-      console.log("Schools successfully retrieved");
-    }
-  });
+  let statusCode = 200;
+  try {
+    School.find({}, (err, schools) => {
+      try {
+        if (err) {
+          statusCode = 500;
+          throw "Server internal error.";
+        } else {
+          res.status(statusCode);
+          res.json(schools);
+          console.log("Schools successfully retrieved");
+        }
+      } catch(err) {
+        res.status(statusCode);
+        res.json({
+          message: err
+        })
+      }
+    });
+  } catch (err) {
+    res.status(statusCode);
+    res.json({
+      message: err
+    })
+  }
 };
 
 /**
