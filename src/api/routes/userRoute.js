@@ -9,4 +9,8 @@ module.exports = (server) => {
     server
         .route("/login")
             .post(userController.login_an_user);
+
+    server
+        .route("/users")
+            .get(userController.get_all_users_from_all_schools);
 }

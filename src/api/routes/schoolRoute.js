@@ -1,5 +1,6 @@
 module.exports = (server) => {
   const schoolController = require("../controllers/schoolController");
+  const {verify_token} = require("../middleware/jwtMiddleware");
 
   server
     .route("/schools")
@@ -8,5 +9,6 @@ module.exports = (server) => {
 
   server
     .route("/schools/:school_id")
-        .get(schoolController.get_a_school);
+        .get(schoolController.get_a_school)
+        .put(verify_token, schoolController.update_a_school);
 };

@@ -1,5 +1,6 @@
 require('dotenv').config();
 const User = require("../models/userModel");
+const School = require('../models/schoolModel');
 const jwt = require('jsonwebtoken');
 const validator = require("validator");
 const bcrypt = require('bcrypt');
@@ -142,6 +143,39 @@ exports.login_an_user = (req, res) => {
     }
   } catch (err) {
     res.status(400);
+    console.log(err);
+    res.json({
+      message: err,
+    });
+  }
+}
+
+exports.get_all_users_from_all_schools = (req, res) => {
+  try {  
+    User.find({}, (err, users) => {
+      if (err) {
+        throw 'Server internal error.';
+      } else {
+        const newUsersArr = [];
+
+        users.forEach(user => {
+          const newObjUser = {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+            associatedSchoolId: user.associatedSchoolId,
+            __v: user.__v
+          }
+          newUsersArr.push(newObjUser);
+          console.log(newObjUser);
+        });
+
+        res.status(200);
+        res.json(newUsersArr);
+      }
+    })
+  } catch (err) {
+    res.status(500);
     console.log(err);
     res.json({
       message: err,

@@ -204,7 +204,7 @@ exports.delete_a_group = async (req, res) => {
       }
     } else{
       statusCode = 403;
-      throw 'No occurence found.';
+      throw 'Data not found';
     }
   } catch (err) {
     res.status(statusCode);
@@ -214,34 +214,7 @@ exports.delete_a_group = async (req, res) => {
   }
 }
 
-/* exports.delete_a_group = async(req, res) => {
-  const groupId = req.params.group_id;
-  const payload = jwt.decode(req.headers['authorization']);
 
-  // Equal to : SELECT * FROM Group WHERE _id = :groupId
-  const groupData = await Group.findById({_id: groupId}).exec();
-  console.log(groupData);
+/* exports.update_a_group = (req, res) => {
 
-  if (groupData) {
-    if (payload.associatedSchoolId === groupData.associatedSchoolId) {
-    
-      Group.findByIdAndRemove(groupId, (err, group) => {
-        if (err) return res.status(500).send(err);
-        const response = {
-          message: "Successfully deleted !"
-        };
-        return res.status(201).send(response);
-        });
-    } else {
-      res.status(403);
-      res.json({
-        message: 'You are not an administrator of this school.'
-      })
-    }
-  } else{
-    res.status(500);
-    res.json({
-      message: 'Internal server error.'
-    })
-  }
 } */
