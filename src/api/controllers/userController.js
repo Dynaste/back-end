@@ -83,7 +83,9 @@ exports.create_an_user = async(req, res) => {
         new_user.save((err, user) => {
           if (err) {
             statusCode = 500;
-            throw 'Internal server error.'
+            res.json({
+              message: 'Internal server error.'
+            });
 
           } else {
             res.status(statusCode);
@@ -125,7 +127,10 @@ exports.login_an_user = (req, res) => {
           if (decryptPassword(req.body.password, user.password)) {
             jwt.sign({ email: user.email, associatedSchoolId: user.associatedSchoolId, role: "user" }, JWT_TOKEN, { expiresIn: "30 days" }, (err, token) => {
               if (err) {
-                throw "Server internal error.";
+                statusCode = 500;
+                res.json({
+                  message: 'Internal server error.'
+                });
               }
               else {
                 console.log('school id : ', user.associatedSchoolId)

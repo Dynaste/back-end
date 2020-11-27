@@ -78,19 +78,40 @@ exports.create_a_school = async (req, res) => {
  */
 exports.get_a_school = (req, res) => {
   const id = req.params.school_id;
+  let statusCode = 200;
 
-  School.findById(id, (err, school) => {
-    if (err) {
-      res.status(500);
-      res.json({
-        message: "Internal server error.",
-      });
-    } else {
-      res.status(200);
-      res.json(school);
-      console.log("School successfully retrieved");
-    }
-  });
+  try {
+    School.findById(id, (err, school) => {
+      try{
+        if (err) {
+          statusCode = 500;
+          throw 'Internal server error';
+        }
+        
+        else if(school === null){
+          statusCode = 400;
+          throw 'School not found';
+        }
+
+        else {
+          res.status(statusCode);
+          res.json(school);
+          console.log("School successfully retrieved");
+        }
+      }catch(err){
+        res.status(statusCode);
+        res.json({
+          message: err
+        })
+      }
+      
+    });
+  } catch (err) {
+    res.status(statusCode);
+    res.json({
+      message: err,
+    });
+  }
 };
 // #endregion
 
@@ -146,7 +167,7 @@ exports.get_a_school = (req, res) => {
 }; */
 
 exports.update_a_school = async (req, res) => {
-  let statusCode = 201;
+  let statusCode = 200;
   try {
     const schoolId = req.params.school_id;
     const payload = jwt.decode(req.headers["authorization"]);
@@ -171,7 +192,7 @@ exports.update_a_school = async (req, res) => {
             else {
               const newSchool = { _id: school._id, name: name, location: location, __v: school.__v };
               console.log("newSchool : ", newSchool);
-              res.status(200);
+              res.status(statusCode);
               res.json(newSchool);  
             }
           });
@@ -180,11 +201,11 @@ exports.update_a_school = async (req, res) => {
           throw "You are not and administrators of this school.";
         }
       } else{
-        statusCode = 403;
+        statusCode = 400;
         throw "This school already exists.";
       }
     } else{
-      statusCode = 403;
+      statusCode = 400;
       throw "You have to set data for update.";
     }
   }

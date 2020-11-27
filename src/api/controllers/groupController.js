@@ -214,7 +214,87 @@ exports.delete_a_group = async (req, res) => {
   }
 }
 
+exports.update_a_group = async (req, res) => {
+  let statusCode = 201;
+  try {
 
-/* exports.update_a_group = (req, res) => {
+    const groupId = req.params.group_id;
+    const payload = jwt.decode(req.headers['authorization']);
+    const {members, questions, about, associatedSchoolId} = req.body;
 
-} */
+    const groupData = async () => {
+      try {
+        return await Group.findById({_id : groupId}).exec();
+      } catch(err) {
+        throw "Data not found.";
+      }
+    }
+
+    if(groupId.length < 24 || groupId.length > 24) {
+      throw "Wrong group id format";
+    }
+    
+    let groupVerify = await Group.findById({_id: groupId}).exec();
+    if(!groupVerify){
+      throw "This group does not exist";
+    }
+
+    const resultGroupData = await groupData();
+    
+    if (payload.associatedSchoolId === resultGroupData.associatedSchoolId) {
+
+      if (checkMembersKeys(members) && checkQuestionsKeys(questions) && about && associatedSchoolId) {
+        const emailDoublons = [];
+
+        if(associatedSchoolId.length < 24 || associatedSchoolId.length > 24) {
+          throw "Wrong school id format";
+        }
+        
+        let schoolVerify = await School.findById({_id: associatedSchoolId}).exec();
+        if(!schoolVerify){
+          throw "This school does not exist";
+        }
+
+        members.forEach((member) => {
+          member.lastname = member.lastname.toUpperCase();
+          member.firstname = capitalize(member.firstname);
+          member.email = member.email.toLowerCase();
+        });
+
+        for (let i = 0; i < members.length; i++) {
+          if (members.filter((member) => {
+              return members[i].email === member.email;
+            }).length > 1) {
+            emailDoublons.push(members[i].email);
+          }
+        }
+
+        if (emailDoublons.length === 0) {
+          Group.findByIdAndUpdate(groupId, req.body, { new: true }, (err, group) => {
+            if (err) {
+              res.status(500);
+              res.json("Internal server error");
+
+            } else {
+              res.status(statusCode);
+              res.json(group);
+            }
+          });
+        } else {
+            throw "Email must be unique";
+        }
+      } else{
+        statusCode = 400;
+        throw "All fields are required.";
+      }
+    } else {
+      throw 'Your are not an administrator of this school.'
+    }
+
+  } catch (err) {
+    res.status(statusCode);
+    res.json({
+      message: err
+    })
+  }
+}
