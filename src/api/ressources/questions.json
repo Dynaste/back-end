@@ -1,9 +1,8 @@
 {
-    "questions" : [
-        {"q1": "Quel est le nom du projet ? : "},
-        {"q2": "Quels sont les technologies utilisées pour ce projet ? : "},
-        {"q3": "Quel secteur visez vous ? (ex: Finance, Data, Medical) : "},
-        {"q4": "Parlez nous de votre solution : "},
-        {"q5": "Qu'attendez vous de ce Hackathon ? : "}
-    ]
+    "q1": "Quel est le nom du projet ? : ",
+    "q2": "Quels sont les technologies utilisées pour ce projet ? : ",
+    "q3": "Quel secteur visez vous ? (ex: Finance, Data, Medical) : ",
+    "q4": "Parlez nous de votre solution : ",
+    "q5": "Qu'attendez vous de ce Hackathon ? : "
+
 }
