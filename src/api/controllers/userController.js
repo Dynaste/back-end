@@ -18,22 +18,34 @@ const JWT_TOKEN = process.env.JWT_TOKEN;
 exports.get_school_user = async (req, res) => {
   try {
     User.findOne({associatedSchoolId: req.params.school_id}, (err, user) => {
-      if (err) {
-        throw 'Internal server error.';
-      } else {
-        // Remove password property from user object
-        const newObjUser = {
-          _id: user._id,
-          email: user.email,
-          name: user.name,
-          associatedSchoolId: user.associatedSchoolId,
-          __v: user.__v
+      try{
+        if (err) {
+          throw 'Internal server error.';
         }
-
-        res.status(200);
-        res.json(newObjUser);
-        console.log("User successfully retrieved");
+        else if (!user){
+          throw 'Ressources not found'
+        }
+        else {
+          // Remove password property from user object
+          const newObjUser = {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+            associatedSchoolId: user.associatedSchoolId,
+            __v: user.__v
+          }
+  
+          res.status(200);
+          res.json(newObjUser);
+          console.log("User successfully retrieved");
+        }
+      }catch(err){
+        res.status(500);
+        res.json({
+          message: err,
+        });
       }
+      
     });
   } catch(err) {
     res.status(500);
