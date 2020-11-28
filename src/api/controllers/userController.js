@@ -148,7 +148,8 @@ exports.login_an_user = (req, res) => {
                 console.log('school id : ', user.associatedSchoolId)
                 res.status(200);
                 res.json({
-                  token
+                  schoolId: user.associatedSchoolId,
+                  token: token
                 });
               }
             })
