@@ -1,10 +1,10 @@
 exports.list_all_questions = (req, res) => {
     const questions = {
-        q1: "Quel est le nom du projet ? : ",
-        q2: "Quels sont les technologies utilisées pour ce projet ? : ",
-        q3: "Quel secteur visez vous ? (ex: Finance, Data, Medical) : ",
-        q4: "Parlez nous de votre solution : ",
-        q5: "Qu'attendez vous de ce Hackathon ? : "
+        q1: "What's the name of your project ? : ",
+        q2: "Which languages are used for this project ? : ",
+        q3: "Which sector are you targeting? (Ex: Finance, Medical) : ",
+        q4: "Tell us about your solution : ",
+        q5: "What do you expect from this Hackathon ? : "
     
     };
 
