@@ -41,7 +41,7 @@ To do that, use the following command :
 `$ git clone https://github.com/Dynaste/back-end.git`
 
 You'll get the final state of our project.
-You need to ensure, no service use the **port 3000**.
+You need to ensure, no service use the **port 4000**.
 
 ### 2. Usage
 
@@ -51,6 +51,7 @@ Then, go to the `/src` folder and tap the following commands in your terminal :
 - Install the dependencies `npm install`
   - It will install all saved dependencies you'll find in package-lock.json.
 - If you want to try with your local MongoDB :
+  - Don't forget to change the database connect in the app.js
   - On **MacOS**:
     - Use the command `mongo`
   - On **Windows**:
