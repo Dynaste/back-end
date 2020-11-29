@@ -252,11 +252,13 @@ exports.update_a_group = async (req, res) => {
         const emailDoublons = [];
 
         if(associatedSchoolId.length < 24 || associatedSchoolId.length > 24) {
+          statusCode = 400;
           throw "Wrong school id format";
         }
         
         let schoolVerify = await School.findById({_id: associatedSchoolId}).exec();
         if(!schoolVerify){
+          statusCode = 400;
           throw "This school does not exist";
         }
 
@@ -282,10 +284,14 @@ exports.update_a_group = async (req, res) => {
 
             } else {
               res.status(statusCode);
-              res.json(group);
+              res.json({
+                message: 'Successfully updated',
+                group
+              });
             }
           });
         } else {
+          statusCode = 400;
             throw "Email must be unique";
         }
       } else{
@@ -293,11 +299,12 @@ exports.update_a_group = async (req, res) => {
         throw "All fields are required.";
       }
     } else {
+      statusCode = 403;
       throw 'Your are not an administrator of this school.'
     }
 
   } catch (err) {
-    res.status(statusCode);
+    res.status(500);
     res.json({
       message: err
     })
