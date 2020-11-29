@@ -7,17 +7,12 @@ const {
 } = require("../utils/utils");
 const jwt = require('jsonwebtoken');
 
-// #region Groups
-
 /**
- * Get a list of all groups.
+ * Get a list of all groups from any schools.
  * @param {*} req The request sent.
  * @param {*} res The response of the request.
  */
 exports.list_all_groups = async (req, res) => {
-
-  /* const groupsVerify = await Group.find({members}).exec();
-  console.log(groupsVerify) */
 
   try {
     Group.find({}, (err, groups) => {
@@ -109,7 +104,12 @@ exports.create_a_group = async (req, res) => {
     console.log(err);
   }
 };
-// #endregion
+
+/**
+ * List all groups from a specific school, where :school_id is his ID.
+ * @param {*} req The request sent, where req.params will contains the ID we need.
+ * @param {*} res The response of the request.
+ */
 
 exports.list_all_school_groups = (req, res) => {
   try {
@@ -144,7 +144,11 @@ exports.list_all_school_groups = (req, res) => {
   }
 }
 
-
+/**
+ * Get a specific group from any school, where :group_id is his ID.
+ * @param {*} req The request sent, where req.params will contains the ID we need.
+ * @param {*} res The response of the request.
+ */
 exports.get_a_group = (req, res) => {
   try {
     const groupId = req.params.group_id;
@@ -169,11 +173,18 @@ exports.get_a_group = (req, res) => {
   }
 };
 
-
+/**
+ * Delete a specific group from any school, where :group_id is his ID.
+ * @param {*} req The request sent, where req.params will contains the ID we need.
+ * @param {*} res The response of the request.
+ */
 exports.delete_a_group = async (req, res) => {
   let statusCode = 201;
   try {
     const groupId = req.params.group_id;
+    /**
+     * Get the token stored in the "Authorization" request header.
+     */
     const payload = jwt.decode(req.headers['authorization']);
 
     // Equal to : SELECT * FROM Group WHERE _id = :groupId
@@ -218,6 +229,12 @@ exports.delete_a_group = async (req, res) => {
     })
   }
 }
+
+/**
+ * Update a specific group from any school, where :group_id is his ID.
+ * @param {*} req The request sent, where req.body will contains all data we need for update.
+ * @param {*} res The response of the request.
+ */
 
 exports.update_a_group = async (req, res) => {
   let statusCode = 201;

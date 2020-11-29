@@ -1,8 +1,6 @@
 const School = require("../models/schoolModel");
 const jwt = require("jsonwebtoken");
 
-// #region Schools
-
 /**
  * Get a list of all schools.
  * @param {*} req The request sent.
@@ -80,9 +78,6 @@ exports.create_a_school = async (req, res) => {
     });
   }
 };
-// #endregion
-
-// #region Schools/SchoolID
 
 /**
  * Get one school by his id.
@@ -126,59 +121,12 @@ exports.get_a_school = (req, res) => {
     });
   }
 };
-// #endregion
 
-/* exports.update_a_school = (req, res) => {
-  let statusCode = 201;
-  try {
-    const schoolId = req.params.school_id;
-    const payload = jwt.decode(req.headers["authorization"]);
-    
-    if (req.body.location && req.body.name) {
-
-      const chekIfSchoolAlreadyExist = await School.find({
-        name: newSchool.name,
-        location: newSchool.location
-      }).exec();
-
-      if (chekIfSchoolAlreadyExist.length === 0) {
-
-      if (payload.associatedSchoolId === schoolId) {
-        console.log("token exist");
-        School.findByIdAndUpdate(schoolId, { new: true }, async (err, school) => {
-            if (err) {
-              throw "Internal server error.";
-            } else {
-              console.log({ school });
-              const newSchool = { ...school, name: req.body.name, location: req.body.location };
-              console.log("newSchool : ", newSchool);
-
-              
-                res.status(200);
-                res.json(newSchool);
-               
-            }
-          }
-        );
-      }
-    }else {
-                throw "This school already exists.";
-              } else {
-        statusCode = 403;
-        throw "You are not and administrators.";
-      }
-    } else {
-      statusCode = 403;
-      throw "You have to set data for update.";
-    }
-  } catch (err) {
-    res.status(statusCode);
-    res.json({
-      message: err,
-    });
-  }
-}; */
-
+/**
+ * Update a specific school, where :school_id contains his ID.
+ * @param {*} req The request sent, where req.params.school_id will contains the ID of the school and where req.body contains all data we need to do the update.
+ * @param {*} res The response of the request.
+ */
 exports.update_a_school = async (req, res) => {
   let statusCode = 200;
   try {
