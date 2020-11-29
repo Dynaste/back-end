@@ -11,7 +11,7 @@ const JWT_TOKEN = process.env.JWT_TOKEN;
 // #region Users
 
 /**
- * Get a list of all users.
+ * Get a user from a specific school.
  * @param {*} req The request sent.
  * @param {*} res The response of the request.
  */
@@ -123,8 +123,13 @@ exports.create_an_user = async(req, res) => {
         message: err
     })
   }
-} 
-// #endregion
+}
+
+/**
+ * LogIn a user with his credentials, then return his account token and his associated school ID.
+ * @param {*} req  The request sent, where req.body contains the user credentials.
+ * @param {*} res  The response sent by the server.
+ */
 
 exports.login_an_user = (req, res) => {
   const {email, password} = req.body;
@@ -175,6 +180,12 @@ exports.login_an_user = (req, res) => {
     });
   }
 }
+
+/**
+ * Get a list of all users from any school.
+ * @param {*} req The request sent.
+ * @param {*} res The response sent by the server.
+ */
 
 exports.get_all_users_from_all_schools = (req, res) => {
   try {  

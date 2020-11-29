@@ -1,3 +1,8 @@
+/**
+ * Get all questions stored in a JSON file in "/ressources/questions.json".
+ * @param {*} req Request data.
+ * @param {*} res The response we'll send to the client.
+ */
 exports.list_all_questions = (req, res) => {
     const questions = {
         q1: "What's the name of your project ? : ",

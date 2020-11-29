@@ -1,4 +1,4 @@
-# README - Hackathon NodeJS
+# README - Hackathon NodeJS - Server
 
 <hr>
 
@@ -33,6 +33,8 @@ In order, you have to :
 <hr>
 
 ## Use in local
+
+As we haven't the time to deploy it, you'll have to start the project localy.
 
 ### 1. Install the project
 

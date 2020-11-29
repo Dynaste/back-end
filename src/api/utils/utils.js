@@ -2,8 +2,6 @@ const validator = require("validator");
 const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
 const bcrypt = require('bcrypt');
 
-// console.log(phoneUtil.isValidNumber(number));
-
 /**
  * Function to check Members properties : if exists, and their validity.
  * @param {*} objectsToCheck Object array used to check their properties.
@@ -85,7 +83,11 @@ exports.capitalize = (str) => {
     return firstCharCapitalize + splicedStr;
 }
 
-
+/**
+ * Decrypt a password, and return a boolean value if it's the same or not.
+ * @param {*} inputPassword The password set by the client
+ * @param {*} dbPassword The encrypted password get through the Database. 
+ */
 exports.decryptPassword = async (inputPassword, dbPassword) => {
   bcrypt.compare(inputPassword, dbPassword, (err, result) => {
     if (err || result === false) {

@@ -2,6 +2,12 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const JWT_TOKEN = process.env.JWT_TOKEN;
 
+/**
+ * Let the backend verify the token validity from a protected request.
+ * @param {*} req The request sent.
+ * @param {*} res The response sent.
+ * @param {*} next Say it's time to finish the request.
+ */
 exports.verify_token = (req, res, next) => {
     let token = req.headers['authorization'];
 

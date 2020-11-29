@@ -1,10 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+/**
+ * Array limiter, to avoid more than 5 members in a group
+ * @param {*} val Refer to the members array.
+ */
 const arrayLimit = (val) => {
     return val.length <= 5;
 }
 
+/**
+ * Create a group schema with ODM Mongoose principle.
+ * PS : Please remember, here, a "group" is a "form".
+ */
 const groupSchema = new Schema({
   members: {
     type: [Object],
@@ -25,4 +33,7 @@ const groupSchema = new Schema({
   }
 });
 
+/**
+ * Export the schema to create this object.
+ */
 module.exports = mongoose.model("Group", groupSchema);
