@@ -118,18 +118,23 @@ exports.list_all_school_groups = (req, res) => {
     console.log(schoolId)
 
     School.findById(schoolId, (err, school) => {
-      if (err) {
-        throw 'Server internal error 1.';
-      } else {
-        Group.find({associatedSchoolId: schoolId}, (err, groups) => {
-          if (err) {
-            throw 'Server internal error 2.';
-          } else {
-            res.status(200);
-            res.json(groups);
-          }
-        })
+      try {
+        if (err) {
+          throw 'Server internal error 1.';
+        } else {
+          Group.find({associatedSchoolId: schoolId}, (err, groups) => {
+            if (err) {
+              throw 'Server internal error 2.';
+            } else {
+              res.status(200);
+              res.json(groups);
+            }
+          })
+        }
+      } catch(err) {
+        throw err;
       }
+      
     })
   } catch(err) {
     res.status(500);
