@@ -100,8 +100,16 @@ exports.create_an_user = async(req, res) => {
             });
 
           } else {
+            const newObjUser = {
+              _id: user._id,
+              email: user.email,
+              name: user.name,
+              associatedSchoolId: user.associatedSchoolId,
+              __v: user.__v
+            }
+
             res.status(statusCode);
-            res.json(user);
+            res.json(newObjUser);
             console.log("User successfully created.");
           }
         });
